@@ -124,4 +124,14 @@ Os resultados dos testes são exibidos no console durante a execução do script
 
 ---
 
++--------------------------------------------------------------+
+|                  Comparação de Performance                   |
++-----------------+----------------+-----------+---------------+
+| Tipo de Teste   | ID Serial (ms) | UUID (ms) | Diferença (%) |
++-----------------+----------------+-----------+---------------+
+| Join Simples    | 0.95           | 2.64      | +177.89%      |
+| Join Complexo   | 1287.0         | 1373.71   | +6.74%        |
+| Múltiplos Joins | 1660.2         | 2490.19   | +49.99%       |
++-----------------+----------------+-----------+---------------+
+
 *Este projeto foi criado para fins de teste e benchmark. Os resultados podem variar dependendo do hardware e configuração do sistema.*
