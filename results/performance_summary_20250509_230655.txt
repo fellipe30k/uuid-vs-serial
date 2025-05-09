@@ -1,0 +1,37 @@
+=== RESUMO DE PERFORMANCE: ID SERIAL VS UUID ===
+Data: 2025-05-09 23:03:08
+PostgreSQL: PostgreSQL 17.5 on x86_64-pc-linux-musl, compiled by gcc (Alpine 14.2.0) 14.2.0, 64-bit
+UUID v7 disponível: false
+Total de registros: 1000000
+
+=== ESTATÍSTICAS DAS TABELAS ===
+parent_serial:
+  Registros: 1000000
+  Tamanho: 50 MB
+  Tamanho total (com índices): 71 MB
+child_serial:
+  Registros: 1999571
+  Tamanho: 129 MB
+  Tamanho total (com índices): 207 MB
+parent_uuid:
+  Registros: 1000000
+  Tamanho: 65 MB
+  Tamanho total (com índices): 103 MB
+child_uuid:
+  Registros: 2000473
+  Tamanho: 178 MB
+  Tamanho total (com índices): 312 MB
+
+=== RESULTADOS COMPARATIVOS ===
+Join Simples:
+  Serial: 0.95 ms
+  UUID: 2.64 ms
+  Diferença: UUID é 177.89% mais lento
+Join Complexo:
+  Serial: 1287.0 ms
+  UUID: 1373.71 ms
+  Diferença: UUID é 6.74% mais lento
+Múltiplos Joins:
+  Serial: 1660.2 ms
+  UUID: 2490.19 ms
+  Diferença: UUID é 49.99% mais lento

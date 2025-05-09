@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres_performance_test
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: performance_test
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - ./:/workspace
+    command: >
+      postgres
+        -c shared_buffers=1GB
+        -c work_mem=64MB
+        -c maintenance_work_mem=256MB
+        -c effective_cache_size=3GB
+        -c max_parallel_workers=8
+        -c max_parallel_workers_per_gather=4
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test_runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: postgres_test_runner
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - ./results:/app/results
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: performance_test
+
+volumes:
+  pg_data:
